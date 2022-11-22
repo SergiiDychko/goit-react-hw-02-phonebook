@@ -1,47 +1,63 @@
 import { Component } from 'react';
 import './App.css';
-import FeedbackOptions from './FeedbackOptions';
-import Statistics from './Statistics';
+import ContactForm from './ContactForm/';
+import ContactList from './ContactsList/';
 import Section from './Section';
+import { nanoid } from 'nanoid';
+import SearchInput from './SearchInput/';
 
 class App extends Component {
   state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
+    contacts: [],
+    filter: '',
+    name: '',
+    number: '',
   };
- 
-  handleFeedback = (evt) => {
-    const { name } = evt.target;
-    this.setState(prevState => ({[name]: prevState[name] + 1}))
-  }
 
-  countTotalFeedback = () => {
-    const { good, neutral, bad } = this.state;
-    return (good + neutral + bad);
-  }
+  handleSubmit = evt => {
+    const { contacts, name, number } = this.state;
+    evt.preventDefault();
+    const newContact = {
+      id: nanoid(),
+      name: name,
+      number: number,
+    };
+    this.setState({
+      name: '',
+      number: '',
+      contacts: [...contacts, newContact],
+    });
+  };
 
-  countPositiveFeedbackPercentage = () => {
-    const { good, neutral, bad } = this.state;
-    return Math.round((good / (good + neutral + bad)) * 100);
-  }
-  
+  handleChange = evt => {
+    const { name, value } = evt.target;
+    this.setState({ [name]: value });
+  };
+
+
+  filteredContacts = () => {
+    const { contacts, filter } = this.state;
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter.toLowerCase())
+    );
+  };
+
   render() {
+    const { contacts, filter, name, number } = this.state;
     return (
       <>
-        <Section title={'Please leave feedback'}>
-          <FeedbackOptions
-            options={this.state}
-            onLeaveFeedback={this.handleFeedback}
-          />
+        <Section title="Phonebook">
+          <ContactForm
+            name={name}
+            number={number}
+            onChange={this.handleChange}
+            onSubmit={this.handleSubmit} />
         </Section>
-        <Section title={'Statistics'}>
-          <Statistics
-            good={this.state.good}
-            neutral={this.state.neutral}
-            bad={this.state.bad}
-            total={this.countTotalFeedback()}
-            positivePercentage={this.countPositiveFeedbackPercentage()}
+        <Section title="Contacts">
+          <SearchInput filter={filter} onChange={this.handleChange} />
+          <ContactList
+            contactsList={filter ? this.filteredContacts() : contacts}
+            filter={filter}
           />
         </Section>
       </>

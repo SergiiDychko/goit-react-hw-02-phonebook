@@ -24,14 +24,3 @@ img {
   max-width: 100%;
   height: auto;
 }
-
-.container {
-    width: 400px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-}
-.title {
-  text-align: center;
-}
