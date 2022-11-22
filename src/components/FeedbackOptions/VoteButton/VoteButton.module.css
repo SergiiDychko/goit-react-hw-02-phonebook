@@ -1,0 +1,26 @@
+.voteButton {
+    min-width: 80px;
+    min-height: 30px;
+    padding: 5px 10px;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+}
+.good {
+    composes: voteButton;
+    background-color: #79be8a;
+    }
+.neutral {
+    composes: voteButton;
+    background-color: #7fa3bb;
+    }
+.bad {
+    composes: voteButton;
+    background-color: #bb7f7f;
+    }
+.voteButton:hover,
+.voteButton:focus {
+    scale: 1.2;
+    box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.4);
+}

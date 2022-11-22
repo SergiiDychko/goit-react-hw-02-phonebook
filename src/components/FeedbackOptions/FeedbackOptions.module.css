@@ -1,0 +1,7 @@
+.feedbackBtns {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    padding-top: 20px;
+    margin: 0 auto;
+}

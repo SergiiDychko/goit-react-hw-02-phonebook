@@ -1,0 +1,21 @@
+table {
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+td {
+  min-width: 40px;
+	padding: 10px;
+	border-right: 1px solid rgba(0, 183, 207, 0.2);
+  color: #696969;
+  text-align: right;
+}
+td:last-child {
+  border-right: none;
+  text-align: left;
+}
+tbody tr:last-child {
+  border-bottom: 1px solid rgba(0, 183, 207, 0.2);
+}
+tfoot {
+  font-weight: 500;
+}
