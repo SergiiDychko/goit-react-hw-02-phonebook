@@ -11,13 +11,10 @@ class App extends Component {
   state = {
     contacts: [],
     filter: '',
-    name: '',
-    number: '',
   };
 
-  handleSubmit = evt => {
-    const { contacts, name, number } = this.state;
-    evt.preventDefault();
+  addNewContact = (name, number) => {
+    const { contacts } = this.state;
     if (
       contacts.find(
         contact => contact.name.toLowerCase() === name.toLowerCase()
@@ -32,15 +29,11 @@ class App extends Component {
       number: number,
     };
     this.setState({
-      name: '',
-      number: '',
       contacts: [...contacts, newContact],
     });
   };
-
-  handleChange = evt => {
-    const { name, value } = evt.target;
-    this.setState({ [name]: value });
+  handleFilter = evt => {
+    this.setState({ filter: evt.target.value });
   };
 
   filteredContacts = () => {
@@ -50,26 +43,21 @@ class App extends Component {
     );
   };
 
-  deleteContact = (contactId) => {
+  deleteContact = contactId => {
     this.setState(prevState => ({
-      contacts: prevState.contacts.filter(contact => contact.id !== contactId)
-    }))
-  }
+      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
+    }));
+  };
 
   render() {
-    const { contacts, filter, name, number } = this.state;
+    const { contacts, filter } = this.state;
     return (
       <>
         <Section title="Phonebook">
-          <ContactForm
-            name={name}
-            number={number}
-            onChange={this.handleChange}
-            onSubmit={this.handleSubmit}
-          />
+          <ContactForm addNewContact={this.addNewContact} />
         </Section>
         <Section title="Contacts">
-          <SearchInput filter={filter} onChange={this.handleChange} />
+          <SearchInput filter={filter} onChange={this.handleFilter} />
           <ContactList
             contactsList={filter ? this.filteredContacts() : contacts}
             filter={filter}
