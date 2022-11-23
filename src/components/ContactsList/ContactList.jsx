@@ -2,13 +2,20 @@ import PropTypes from 'prop-types';
 import ContactItem from './ContactItem';
 import { StyledList } from './Styles';
 import Notification from '../Notification';
+import Button from '../Button';
 
 
-const ContactList = ({ contactsList, filter }) => {
+const ContactList = ({ contactsList, filter, onDelete }) => {
     return contactsList.length ? (
       <StyledList>
         {contactsList.map(({ id, name, number }) => (
-          <ContactItem key={id} name={name} number={number} />
+          <li className='listItem' key={id}>
+            <ContactItem
+              name={name}
+              number={number}
+            />
+           <Button title='Delete' onClick={() => onDelete(id)} />
+          </li>
         ))}
       </StyledList>
     ) : (

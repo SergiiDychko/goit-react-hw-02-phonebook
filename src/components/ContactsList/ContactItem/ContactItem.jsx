@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import { StyledContact } from './Styles';
-
-const ContactItem = ({ name, number }) => {
+const ContactItem = ({name, number}) => {
     return (
       <StyledContact>
         <p className="contactName">{name}:</p>
         <a className="contactNumber" href={'tel:' + number}>
-          {number}</a>
+          {number}
+        </a>
+
       </StyledContact>
     );
 }

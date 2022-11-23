@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import './App.css';
+import {Notify} from 'notiflix';
 import ContactForm from './ContactForm/';
 import ContactList from './ContactsList/';
 import Section from './Section';
@@ -17,6 +18,14 @@ class App extends Component {
   handleSubmit = evt => {
     const { contacts, name, number } = this.state;
     evt.preventDefault();
+    if (
+      contacts.find(
+        contact => contact.name.toLowerCase() === name.toLowerCase()
+      )
+    ) {
+      Notify.failure(`${name} is already in contacts`);
+      return;
+    }
     const newContact = {
       id: nanoid(),
       name: name,
@@ -34,13 +43,18 @@ class App extends Component {
     this.setState({ [name]: value });
   };
 
-
   filteredContacts = () => {
     const { contacts, filter } = this.state;
     return contacts.filter(contact =>
       contact.name.toLowerCase().includes(filter.toLowerCase())
     );
   };
+
+  deleteContact = (contactId) => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== contactId)
+    }))
+  }
 
   render() {
     const { contacts, filter, name, number } = this.state;
@@ -51,13 +65,15 @@ class App extends Component {
             name={name}
             number={number}
             onChange={this.handleChange}
-            onSubmit={this.handleSubmit} />
+            onSubmit={this.handleSubmit}
+          />
         </Section>
         <Section title="Contacts">
           <SearchInput filter={filter} onChange={this.handleChange} />
           <ContactList
             contactsList={filter ? this.filteredContacts() : contacts}
             filter={filter}
+            onDelete={this.deleteContact}
           />
         </Section>
       </>
