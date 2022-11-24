@@ -32,6 +32,7 @@ class App extends Component {
       contacts: [...contacts, newContact],
     });
   };
+  
   handleFilter = evt => {
     this.setState({ filter: evt.target.value });
   };
